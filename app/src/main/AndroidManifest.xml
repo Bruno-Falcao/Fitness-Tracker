@@ -13,7 +13,7 @@
             android:name=".CaloriesActivity"
             android:exported="false" />
         <activity
-            android:name=".ImcActivity"
+            android:name=".BmiActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

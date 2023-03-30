@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        tools:context=".ImcActivity">
+        tools:context=".BmiActivity">
 
         <TextView
             style="@style/TextViewForm"
@@ -22,14 +22,14 @@
             android:id="@+id/edit_imc_weight"
             style="@style/EditTextForm"
             android:hint="@string/weight"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:maxLength="3" />
 
         <EditText
             style="@style/EditTextForm"
             android:id="@+id/edit_imc_height"
             android:hint="@string/height"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:maxLength="3" />
 
         <Button

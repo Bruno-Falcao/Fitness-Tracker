@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         btnCalories = findViewById(R.id.btn_calories)
 
         btnImc.setOnClickListener {
-            val i = Intent(this, ImcActivity::class.java)
+            val i = Intent(this, BmiActivity::class.java)
 
             startActivity(i)
         }
