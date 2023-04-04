@@ -1,12 +1,17 @@
 package co.tiagoaguiar.fitnesstracker
 
+import android.content.Context
+import android.content.DialogInterface
+import android.hardware.input.InputManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 
 class BmiActivity : AppCompatActivity() {
 
@@ -34,7 +39,18 @@ class BmiActivity : AppCompatActivity() {
             Log.d("Teste", "resultado: $result")
 
             val bmiResponseId = bmiResponse(result)
-            Toast.makeText(this, bmiResponseId, Toast.LENGTH_SHORT).show()
+
+            val dialog = AlertDialog.Builder(this)
+                .setTitle(getString(R.string.imc_response, result))
+                .setMessage(bmiResponseId)
+                .setPositiveButton(android.R.string.ok) { dialog, which ->
+
+                }
+                .create()
+                .show()
+
+            val service = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            service.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
     }
 
@@ -62,6 +78,5 @@ class BmiActivity : AppCompatActivity() {
 
     private fun calculateBmi(weight: Int, height: Int): Double {
         return weight / ((height / 100.0) * (height / 100.0))
-
     }
 }
