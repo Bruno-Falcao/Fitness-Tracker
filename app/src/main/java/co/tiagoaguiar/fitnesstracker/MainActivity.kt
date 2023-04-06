@@ -1,16 +1,21 @@
 package co.tiagoaguiar.fitnesstracker
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var recyclerMain: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,25 +23,56 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val mainItems = mutableListOf<MainItem>()
-        mainItems.add(
-            MainItem(
-                id = 1,
-                drawable = R.drawable.baseline_wb_sunny_24,
-                textStringId = R.string.label_imc,
-                color = Color.GREEN
+        mainItems.addAll(
+            listOf(
+                MainItem(
+                    id = 1,
+                    drawableId = R.drawable.baseline_wb_sunny_24,
+                    textStringId = R.string.label_imc,
+                    color = Color.GREEN
+                ),
+                MainItem(
+                    id = 2,
+                    drawableId = R.drawable.baseline_sports_martial_arts_24,
+                    textStringId = R.string.tmb,
+                    color = Color.BLUE
+                ),
+                MainItem(
+                    id = 3,
+                    drawableId = R.drawable.baseline_wb_sunny_24,
+                    textStringId = R.string.tmb,
+                    color = Color.YELLOW
+                ),
+                MainItem(
+                    id = 4,
+                    drawableId = R.drawable.baseline_wb_sunny_24,
+                    textStringId = R.string.tmb,
+                    color = Color.CYAN
+                )
             )
         )
 
-        val adapter = MainAdapter(mainItems)
+        val adapter = MainAdapter(mainItems) { id ->
+            when (id) {
+                1 -> {
+                    val intent = Intent(this@MainActivity, BmiActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            Log.i("Teste", "Clicou $id")
+
+
+        }
         recyclerMain = findViewById(R.id.recycler_main)
         recyclerMain.adapter = adapter
-        recyclerMain.layoutManager = LinearLayoutManager(this)
+        recyclerMain.layoutManager = GridLayoutManager(this, 2)
 
     }
 
     private inner class MainAdapter(
-        private val mainItems: List<MainItem>
-        ) : RecyclerView.Adapter<MainViewHolder>() {
+        private val mainItems: List<MainItem>,
+        private val onItemClickListener: (Int) -> Unit
+    ) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
         // 1 - Qual é o layout XML da celula especifica (item)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -55,13 +91,22 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int {
             return mainItems.size
         }
-    }
 
-    // É a classe de uma celula em si
-    private inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(currentItem: MainItem) {
-            val buttonTest: Button = itemView.findViewById(R.id.btn_item)
-            buttonTest.setText(currentItem.textStringId)
+        // É a classe de uma celula em si
+        private inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            fun bind(currentItem: MainItem) {
+                val img: ImageView = itemView.findViewById(R.id.item_img)
+                val name: TextView = itemView.findViewById(R.id.item_txt_name)
+                val container: LinearLayout = itemView.findViewById(R.id.item_container_bmi)
+
+                img.setImageResource(currentItem.drawableId)
+                name.setText(currentItem.textStringId)
+                container.setBackgroundColor(currentItem.color)
+
+                container.setOnClickListener {
+                    onItemClickListener.invoke(currentItem.id)
+                }
+            }
         }
     }
 }
