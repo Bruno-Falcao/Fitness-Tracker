@@ -3,17 +3,15 @@ package co.tiagoaguiar.fitnesstracker
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.tiagoaguiar.fitnesstracker.model.MainItem
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerMain: RecyclerView
@@ -36,18 +34,6 @@ class MainActivity : AppCompatActivity() {
                     drawableId = R.drawable.baseline_sports_martial_arts_24,
                     textStringId = R.string.tmb,
                     color = Color.BLUE
-                ),
-                MainItem(
-                    id = 3,
-                    drawableId = R.drawable.baseline_wb_sunny_24,
-                    textStringId = R.string.tmb,
-                    color = Color.YELLOW
-                ),
-                MainItem(
-                    id = 4,
-                    drawableId = R.drawable.baseline_wb_sunny_24,
-                    textStringId = R.string.tmb,
-                    color = Color.CYAN
                 )
             )
         )
@@ -58,10 +44,11 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this@MainActivity, BmiActivity::class.java)
                     startActivity(intent)
                 }
+                2 -> {
+                    val intent = Intent(this@MainActivity, BmrActivity::class.java)
+                    startActivity(intent)
+                }
             }
-            Log.i("Teste", "Clicou $id")
-
-
         }
         recyclerMain = findViewById(R.id.recycler_main)
         recyclerMain.adapter = adapter
